@@ -1,0 +1,75 @@
+.auth {
+	display: flex;
+	width: 100vw;
+	height: 100svh;
+}
+
+.auth-container, .auth-img-container {
+	width: 50%;
+	height: 100%;
+}
+
+.auth-img-container {
+	background-color: rgb(220, 220, 220);
+}
+
+.auth-container {
+	display: flex;
+	justify-content: center;
+	padding-top: 88px;
+}
+
+.login-form {
+	width: 72%;
+	display: flex;
+	flex-direction: column;
+	gap: 18px;
+}
+
+.form-hdr {
+	font-family: Oswald;
+	font-size: 1.2rem;
+	font-weight: 600;
+	/*color: rgb(var(--primary));*/
+	color: rgb(80, 80, 80);
+}
+
+.form-cnt {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.form-cnt > input {
+	border: none;
+	/*border-bottom: 1px solid rgb(0, 0, 0, .3);*/
+	background-color: rgb(240, 240, 240);
+	border-radius: 4px;
+	padding: 10px 12px;
+	font-size: .72rem;
+	font-weight: 600;
+}
+
+.form-cnt > input::placeholder {
+	color: rgb(0, 0, 0, .22);
+}
+
+.form-cnt > button {
+	margin-top: 16px;
+	border: none;
+	padding: 12px;
+	border-radius: 2px;
+	color: white;
+	background: linear-gradient(120deg, rgb(var(--primary)), rgb(var(--primary), .3));
+	cursor: pointer;
+	font-weight: 600;
+}
+
+.form-alt {
+	font-size: .58rem;
+	align-self: center;
+	font-weight: 600;
+	color: rgb(120, 120, 120);
+	cursor: pointer;
+}

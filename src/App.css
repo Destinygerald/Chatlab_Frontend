@@ -1,0 +1,30 @@
+*, *::after, *::before {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+@font-face {
+  src: url('/PTSans-Regular.ttf');
+  font-family: PTSans;
+}
+
+@font-face {
+  src: url('/Oswald-Medium.ttf');
+  font-family: Oswald;
+}
+
+html, body, #root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+.app {
+  color: rgb(48, 48, 48);
+  font-family: PTSans;
+  --bg: 244, 244, 244;
+  --primary: 0, 160, 250;
+  --secondary: 250, 250, 250;
+  --text: white;
+}
+

@@ -1,0 +1,55 @@
+@media (max-width: 600px) {
+	.dashboard-container {
+		width: fit-content;;
+	}
+
+	.sidebar-hide {
+		display: none;
+	}
+
+	.sidebar {
+		width: 80%;
+	}
+
+	.main {
+		width: 100vw;
+	}
+
+	.main-hdr-people {
+		display: flex;
+		color: rgb(var(--primary));
+		font-size: 1.2rem;
+		margin-bottom: -4px;
+	}
+
+	::-webkit-scrollbar {
+		display: none;
+	}
+
+	::-webkit-scrollbar-thumb {
+		display: none;
+	}
+
+	.chat-container {
+		padding-right: 0;
+	}
+
+	.chat-input, .chat-input > textarea {
+		min-height: 52px;
+	}
+
+	.chat-input > textarea {
+		width: calc(100% - 52px);
+	}
+
+	.chat-btn {
+		width: 52px;
+		height: 52px;
+		border-radius: 8px;
+	}
+
+	.sdb-scroll {
+		overflow-y: scroll;
+		padding-right: 0;
+	}
+}
