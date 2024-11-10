@@ -5,6 +5,7 @@ import { FaPhoneAlt } from 'react-icons/fa'
 import { IoVideocam } from 'react-icons/io5'
 import { IoMdPeople } from 'react-icons/io'
 import { CiMenuKebab } from 'react-icons/ci'
+import { HiOutlineMenuAlt1 } from 'react-icons/hi'
 import { useState, useEffect, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { initCall } from '../../features/CallFeature.js'
@@ -143,6 +144,37 @@ function MessageCard ({ from, message, time }) {
 }
 
 function ChatBox () {
+
+	const [ message, setMessage ] = useState('')
+
+	// Use the code below instead of the placeholder own
+	// const Chats = useSelector(state => state.chat.value.chats)
+
+	function changeHandler(e) {
+		setMessage(e.target.value)
+	}
+
+	function sendMessage () {
+
+	}
+
+	function textareaResize (textarea) {
+		textarea.style.height = 'auto'
+		textarea.style.height = `${textarea?.scrollHeight}px`
+		textarea.style.maxHeight = '120px'
+	}
+
+	useEffect(() => {
+		const textarea = document.querySelector('.chat-textarea')
+
+		if (!textarea) return;
+
+		textarea.addEventListener('input', () => textareaResize(textarea))
+
+		return () => textarea.removeEventListener('input', () => textareaResize(textarea))
+
+	}, [message])
+
 	return (
 		<div className='chat-box'>
 			<div className='chat-container'>	
@@ -156,7 +188,7 @@ function ChatBox () {
 			</div>
 
 			<div className='chat-input'> 
-				<textarea></textarea>
+				<textarea className='chat-textarea' value={message} onChange={changeHandler}></textarea>
 
 				<div className='chat-btn'>
 					<BsFillSendFill />
@@ -221,7 +253,8 @@ function Main () {
 					{ 
 						!sidebar
 						?
-						<IoMdPeople />
+						// <IoMdPeople />
+						<HiOutlineMenuAlt1 />
 						:
 						<BsX />
 					} 

@@ -14,13 +14,17 @@ import CallReducer from './features/CallFeature.js'
 import SidebarReducer from './features/Sidebar.js'
 import ChatReducer from './features/Chat.js'
 import ControlReducer from './features/Control.js'
+import FriendsReducer from './features/Friends.js'
+import UserinfoReducer from './features/Userinfo.js'
 
 const store = configureStore({
   reducer: {
     call: CallReducer,
     sidebar: SidebarReducer,
     chat: ChatReducer,
-    control: ControlReducer
+    control: ControlReducer,
+    friends: FriendsReducer,
+    userinfo: UserinfoReducer
   }
 })
 

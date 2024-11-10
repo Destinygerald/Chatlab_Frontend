@@ -8,7 +8,18 @@
 	}
 
 	.sidebar {
-		width: 80%;
+		/*position: fixed;*/
+		z-index: 1;
+		width: 84vw;
+	}
+
+	.sdb-side {
+		/*display: none;*/
+	}
+
+	.sdb-main {
+		padding-right: 0px;
+		width: 220px;
 	}
 
 	.main {

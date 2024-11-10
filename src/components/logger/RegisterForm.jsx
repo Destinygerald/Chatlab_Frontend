@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { register } from '../../api/auth.js'
 
 function RegInput ({ type, value, name, placeholder, changeEvent, errMsg, blurEvent, focusEvent, blurred }) {
 
@@ -21,10 +22,28 @@ function RegisterForm () {
 		confirmPassword: ''
 	})
 
+	const [ loading, setLoading ] = useState(false)
+
 	const navigate = useNavigate()
 
-	function submitHandler (e) {
+	async function submitHandler (e) {
 		e.preventDefault()
+
+		setLoading(true)
+		try {
+			const res = await register(signup)
+
+			if (res.status == 201){
+				navigate('/login')
+			}
+
+		} catch (err) {
+			console.error(err)
+		}
+
+		setTimeout(() => {
+			setLoading(false)
+		}, 1500)
 	}
 
 	function changeHandler (e) {
@@ -41,7 +60,13 @@ function RegisterForm () {
 				<input name='password' type='password' value={signup.password} placeholder='Password' onChange={changeHandler} />
 				<input name='confirmPassword' type='password' value={signup.confirmPassword} placeholder='Confirm Password' onChange={changeHandler} />
 
-				<button> Login </button>
+				{
+					loading
+					?
+					<button className='loading' disabled={true}> <div /> </button>
+					:
+					<button> Signup </button>
+				}
 			</form>
 
 			<div className='form-alt' onClick={() => navigate('/login')}>

@@ -1,112 +1,93 @@
 import '../styles/dashboard.css'
+import '../styles/dashboard_mobile.css'
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 import Main from '../components/dashboard/Main.jsx'
-import { AiOutlineSearch } from 'react-icons/ai'
-import { IoIosSettings, IoMdPersonAdd } from 'react-icons/io'
-import { RiMessage3Fill } from 'react-icons/ri'
-import { MdGroups } from 'react-icons/md'
-import { useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { changeChat } from '../features/Chat.js'
-import { controlChange } from '../features/Control.js'
+import { Sidebar } from '../components/dashboard/Sidebar.jsx'
+import { getProfile, getPrevChats, getFriendList, getChats } from '../api/functions.js'
+import { loginEmitter } from '../api/emitter.js'
+import { addUserInfo } from '../features/Userinfo.js'
+import { addFriend, removeFriend, resetFriendList } from '../features/Friends.js'
+import { addChats } from '../features/Chat.js'
 
-const Test = Array.from(Array(24))
-
-function SidebarCard ({ name, lastChat, notif, img, time, id, selected }) {
-	
-	const dispatch = useDispatch()
-
-	function clickHandler () {
-		dispatch(changeChat(id))
-	}
-
-	return (
-		<div className={id == selected ? 'sdb-card active' : 'sdb-card'} onClick={clickHandler}>
-			<div className='sdb-card-left'>
-				<div className='sdb-card-img'> <img src={img} /> </div>
-
-				<div className='sdb-card-info'>
-					<span> {name || 'Name'} </span>
-					<span> {lastChat || 'Hi'} </span>
-				</div>
-			</div>
-
-			<div className='sdb-card-time'>
-				{ time || '2 mins ago' }
-			</div>
-
-			{
-				notif
-				?
-				<span className='sdb-card-notif'></span>
-				:
-				<span className='sdb-card-notif'>1</span>
-			}
-		</div>
-	)
-}
-
-function Sidebar () {
-	
-	const [ search, setSearch ] = useState('')
-
-	const sidebarOpen = useSelector(state => state.sidebar.value)
-	const selectedChat = useSelector(state => state.chat.value.selected)
-	const control = useSelector(state => state.control.value)
-
-	const dispatch = useDispatch()
-
-	function changeHandler (e) {
-		setSearch(e.target.value)
-	}
-
-	function sideFunc (arg) {
-		dispatch(controlChange(arg))
-	}
-
-
-	return (
-		<div className={sidebarOpen ? 'sidebar' : 'sidebar-hide'}>
-
-			<div className='sdb-side'>
-				<div className='sdb-side-col'>
-					<span className={control == 'chats' ? 'sdb-side-selected' : ''} onClick={() => sideFunc('chats')}> <RiMessage3Fill /> </span>
-					<span className={control == 'add-friend' ? 'sdb-side-selected' : ''} onClick={() => sideFunc('add-friend')}> <IoMdPersonAdd /> </span>
-					<span className={control == 'group' ? 'sdb-side-selected' : ''} onClick={() => sideFunc('group')}> <MdGroups /> </span>
-				</div>
-
-			</div>
-
-			<div className='sdb-main'>
-				<div className='sdb-hdr'>
-					<span className='sdb-logo'> ChatLab </span>
-
-					<div>
-						<span />
-						<span> <IoIosSettings /> </span>
-					</div>
-				</div>
-
-				<div className='sdb-search'> 
-					<input type='text' placeholder='Search' value={search} onChange={changeHandler} />
-					<span className='sdb-search-icon'> <AiOutlineSearch /> </span>
-				</div>
-
-				<div className='sdb-scroll'>
-					<div className='sdb-content'>
-						{
-							Test.map((itm, i) => (
-								<SidebarCard key={i} selected={selectedChat} id={i} />
-							))
-						}
-					</div>
-				</div>
-			</div>
-
-		</div>
-	)
-}
+const AllFriends = [1, 2, 3, 4]
 
 function Dashboard () {
+
+	const userinfo = useSelector(state => state.userinfo.value)
+	const friends = useSelector(state => state.friends.value)
+	const dispatch = useDispatch()
+
+	const navigate = useNavigate()
+
+	async function userProfile () {
+		try {
+			const res = await getProfile()
+
+			if (res.status == 200) {
+				// loginEmitter()
+			}
+
+			dispatch(addUserInfo(res.data.data))
+
+		} catch (err) {
+			console.error(err)
+			navigate('/login')
+			return
+		}
+	}
+
+	async function getFriends () {
+		try {
+			const res = await getFriendList()
+
+			// call this function again when the new chat event is triggered
+			dispatch(resetFriendList())
+			dispatch(addFriend(res.data.data))		
+
+		} catch (err) {
+			console.error(err)
+		}
+	}
+
+	async function getMyChats (id) {
+		try {
+			const res = await getChats(id)
+			console.log(res)
+			// dispatch(addChats(res.data.data))
+		} catch (err) {
+			console.error(err)
+		}
+	}
+
+	useEffect(() => {
+		// Emit the logged in event provided that the user is logged in
+		// to know if the user is logged in, check if the cookie has expired
+		// emit the last_seen event also
+
+		userProfile()
+		if (!userinfo.name) {
+			userProfile()
+		}
+
+		getFriends();
+
+		if (friends?.length <= 0) return;
+
+		friends?.forEach((i) => {
+			getMyChats(i?.id)
+		})
+		
+
+		return () => {
+
+		}
+
+	}, [])
+
+	// console.log(userinfo)
+
 	return (
 		<div className='dashboard'>
 			<div className='dashboard-container'>

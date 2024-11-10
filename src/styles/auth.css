@@ -49,6 +49,8 @@
 	padding: 10px 12px;
 	font-size: .72rem;
 	font-weight: 600;
+	color: rgb(60, 60, 60);
+	outline: none;
 }
 
 .form-cnt > input::placeholder {
@@ -63,7 +65,37 @@
 	color: white;
 	background: linear-gradient(120deg, rgb(var(--primary)), rgb(var(--primary), .3));
 	cursor: pointer;
-	font-weight: 600;
+	font-size: .8rem;
+	font-weight: 500;
+	height: 40px;
+	font-family: Oswald;
+}
+
+.loading {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	pointer-events: none !important;
+}
+
+
+.loading > div {
+	width: 20px;
+	height: 20px;
+	background: conic-gradient(transparent 40%, white);
+	mask-image: radial-gradient(circle, rgb(0, 0, 0, 0) 50%, black 50%);
+	border-radius: 50%;
+	animation: spin 1.2s infinite linear;
+}
+
+@keyframes spin {
+	from {
+		transform: rotate(0deg);
+	}
+
+	to {
+		transform: rotate(360deg);
+	}
 }
 
 .form-alt {
